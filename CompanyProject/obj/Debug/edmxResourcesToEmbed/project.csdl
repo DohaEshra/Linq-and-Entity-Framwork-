@@ -1,0 +1,462 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="CompanyProjectModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Customer">
+    <Key>
+      <PropertyRef Name="Cst_name" />
+    </Key>
+    <Property Name="Cst_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Phone" Type="Int32" />
+    <Property Name="Fax" Type="Int32" />
+    <Property Name="mobile" Type="Int32" />
+    <Property Name="Email" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="Website" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="SalesOrders" Relationship="Self.FK_SalesOrder_Customer" FromRole="Customer" ToRole="SalesOrder" />
+  </EntityType>
+  <EntityType Name="Product">
+    <Key>
+      <PropertyRef Name="Prod_id" />
+    </Key>
+    <Property Name="Prod_id" Type="Int32" Nullable="false" />
+    <Property Name="Prod_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="ProductUnits" Relationship="Self.FK_ProductUnits_Products" FromRole="Products" ToRole="ProductUnits" />
+    <NavigationProperty Name="Warehouse_prod_PurchOrd" Relationship="Self.FK_Warehouse_prod_PurchOrd_Products" FromRole="Products" ToRole="Warehouse_prod_PurchOrd" />
+    <NavigationProperty Name="Warehouse_prod_salesOrd" Relationship="Self.FK_Warehouse_prod_salesOrd_Products" FromRole="Products" ToRole="Warehouse_prod_salesOrd" />
+  </EntityType>
+  <EntityType Name="ProductUnit">
+    <Key>
+      <PropertyRef Name="Prod_id" />
+      <PropertyRef Name="prod_unit" />
+    </Key>
+    <Property Name="Prod_id" Type="Int32" Nullable="false" />
+    <Property Name="prod_unit" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="Product" Relationship="Self.FK_ProductUnits_Products" FromRole="ProductUnits" ToRole="Products" />
+  </EntityType>
+  <EntityType Name="PurchasingOrder">
+    <Key>
+      <PropertyRef Name="po_id" />
+    </Key>
+    <Property Name="po_id" Type="Int32" Nullable="false" />
+    <Property Name="ord_date" Type="DateTime" Precision="0" />
+    <Property Name="Sup_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Supplier" Relationship="Self.FK_PurchasingOrder_Supplier" FromRole="PurchasingOrder" ToRole="Supplier" />
+    <NavigationProperty Name="Warehouse_prod_PurchOrd" Relationship="Self.FK_Warehouse_prod_PurchOrd_PurchasingOrder" FromRole="PurchasingOrder" ToRole="Warehouse_prod_PurchOrd" />
+  </EntityType>
+  <EntityType Name="SalesOrder">
+    <Key>
+      <PropertyRef Name="so_ID" />
+    </Key>
+    <Property Name="so_ID" Type="Int32" Nullable="false" />
+    <Property Name="ord_date" Type="DateTime" Precision="0" />
+    <Property Name="Cst_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Customer" Relationship="Self.FK_SalesOrder_Customer" FromRole="SalesOrder" ToRole="Customer" />
+    <NavigationProperty Name="Warehouse_prod_salesOrd" Relationship="Self.FK_Warehouse_prod_salesOrd_SalesOrder" FromRole="SalesOrder" ToRole="Warehouse_prod_salesOrd" />
+  </EntityType>
+  <EntityType Name="Supplier">
+    <Key>
+      <PropertyRef Name="Sup_name" />
+    </Key>
+    <Property Name="Sup_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="phone" Type="Int32" />
+    <Property Name="Fax" Type="Int32" />
+    <Property Name="Mobile" Type="Int32" />
+    <Property Name="Email" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="Website" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="PurchasingOrders" Relationship="Self.FK_PurchasingOrder_Supplier" FromRole="Supplier" ToRole="PurchasingOrder" />
+  </EntityType>
+  <EntityType Name="sysdiagram">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="Warehouse">
+    <Key>
+      <PropertyRef Name="W_name" />
+    </Key>
+    <Property Name="W_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Address" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="Manager_id" Type="Int32" />
+    <NavigationProperty Name="Warehouse_prod_PurchOrd" Relationship="Self.FK_Warehouse_prod_PurchOrd_Warehouse" FromRole="Warehouse" ToRole="Warehouse_prod_PurchOrd" />
+    <NavigationProperty Name="Warehouse_prod_salesOrd" Relationship="Self.FK_Warehouse_prod_salesOrd_Warehouse" FromRole="Warehouse" ToRole="Warehouse_prod_salesOrd" />
+  </EntityType>
+  <EntityType Name="Warehouse_prod_PurchOrd">
+    <Key>
+      <PropertyRef Name="W_name" />
+      <PropertyRef Name="Prod_id" />
+      <PropertyRef Name="Po_id" />
+    </Key>
+    <Property Name="W_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Prod_id" Type="Int32" Nullable="false" />
+    <Property Name="Po_id" Type="Int32" Nullable="false" />
+    <Property Name="quantity" Type="Int32" />
+    <Property Name="production_date" Type="DateTime" Precision="0" />
+    <Property Name="Expiration_Dur" Type="Int32" />
+    <NavigationProperty Name="Product" Relationship="Self.FK_Warehouse_prod_PurchOrd_Products" FromRole="Warehouse_prod_PurchOrd" ToRole="Products" />
+    <NavigationProperty Name="PurchasingOrder" Relationship="Self.FK_Warehouse_prod_PurchOrd_PurchasingOrder" FromRole="Warehouse_prod_PurchOrd" ToRole="PurchasingOrder" />
+    <NavigationProperty Name="Warehouse" Relationship="Self.FK_Warehouse_prod_PurchOrd_Warehouse" FromRole="Warehouse_prod_PurchOrd" ToRole="Warehouse" />
+  </EntityType>
+  <EntityType Name="Warehouse_prod_salesOrd">
+    <Key>
+      <PropertyRef Name="W_name" />
+      <PropertyRef Name="Prod_id" />
+      <PropertyRef Name="so_ID" />
+    </Key>
+    <Property Name="W_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Prod_id" Type="Int32" Nullable="false" />
+    <Property Name="so_ID" Type="Int32" Nullable="false" />
+    <Property Name="quantity" Type="Int32" />
+    <NavigationProperty Name="Product" Relationship="Self.FK_Warehouse_prod_salesOrd_Products" FromRole="Warehouse_prod_salesOrd" ToRole="Products" />
+    <NavigationProperty Name="SalesOrder" Relationship="Self.FK_Warehouse_prod_salesOrd_SalesOrder" FromRole="Warehouse_prod_salesOrd" ToRole="SalesOrder" />
+    <NavigationProperty Name="Warehouse" Relationship="Self.FK_Warehouse_prod_salesOrd_Warehouse" FromRole="Warehouse_prod_salesOrd" ToRole="Warehouse" />
+  </EntityType>
+  <EntityType Name="warehouse_products">
+    <Key>
+      <PropertyRef Name="w_name" />
+      <PropertyRef Name="prod_id" />
+    </Key>
+    <Property Name="w_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="prod_id" Type="Int32" Nullable="false" />
+    <Property Name="quantity" Type="Int32" />
+  </EntityType>
+  <Association Name="FK_SalesOrder_Customer">
+    <End Role="Customer" Type="Self.Customer" Multiplicity="0..1" />
+    <End Role="SalesOrder" Type="Self.SalesOrder" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Customer">
+        <PropertyRef Name="Cst_name" />
+      </Principal>
+      <Dependent Role="SalesOrder">
+        <PropertyRef Name="Cst_name" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProductUnits_Products">
+    <End Role="Products" Type="Self.Product" Multiplicity="1" />
+    <End Role="ProductUnits" Type="Self.ProductUnit" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Products">
+        <PropertyRef Name="Prod_id" />
+      </Principal>
+      <Dependent Role="ProductUnits">
+        <PropertyRef Name="Prod_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Warehouse_prod_PurchOrd_Products">
+    <End Role="Products" Type="Self.Product" Multiplicity="1" />
+    <End Role="Warehouse_prod_PurchOrd" Type="Self.Warehouse_prod_PurchOrd" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Products">
+        <PropertyRef Name="Prod_id" />
+      </Principal>
+      <Dependent Role="Warehouse_prod_PurchOrd">
+        <PropertyRef Name="Prod_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Warehouse_prod_salesOrd_Products">
+    <End Role="Products" Type="Self.Product" Multiplicity="1" />
+    <End Role="Warehouse_prod_salesOrd" Type="Self.Warehouse_prod_salesOrd" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Products">
+        <PropertyRef Name="Prod_id" />
+      </Principal>
+      <Dependent Role="Warehouse_prod_salesOrd">
+        <PropertyRef Name="Prod_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PurchasingOrder_Supplier">
+    <End Role="Supplier" Type="Self.Supplier" Multiplicity="0..1" />
+    <End Role="PurchasingOrder" Type="Self.PurchasingOrder" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Supplier">
+        <PropertyRef Name="Sup_name" />
+      </Principal>
+      <Dependent Role="PurchasingOrder">
+        <PropertyRef Name="Sup_name" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Warehouse_prod_PurchOrd_PurchasingOrder">
+    <End Role="PurchasingOrder" Type="Self.PurchasingOrder" Multiplicity="1" />
+    <End Role="Warehouse_prod_PurchOrd" Type="Self.Warehouse_prod_PurchOrd" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PurchasingOrder">
+        <PropertyRef Name="po_id" />
+      </Principal>
+      <Dependent Role="Warehouse_prod_PurchOrd">
+        <PropertyRef Name="Po_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Warehouse_prod_salesOrd_SalesOrder">
+    <End Role="SalesOrder" Type="Self.SalesOrder" Multiplicity="1" />
+    <End Role="Warehouse_prod_salesOrd" Type="Self.Warehouse_prod_salesOrd" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SalesOrder">
+        <PropertyRef Name="so_ID" />
+      </Principal>
+      <Dependent Role="Warehouse_prod_salesOrd">
+        <PropertyRef Name="so_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Warehouse_prod_PurchOrd_Warehouse">
+    <End Role="Warehouse" Type="Self.Warehouse" Multiplicity="1" />
+    <End Role="Warehouse_prod_PurchOrd" Type="Self.Warehouse_prod_PurchOrd" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Warehouse">
+        <PropertyRef Name="W_name" />
+      </Principal>
+      <Dependent Role="Warehouse_prod_PurchOrd">
+        <PropertyRef Name="W_name" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Warehouse_prod_salesOrd_Warehouse">
+    <End Role="Warehouse" Type="Self.Warehouse" Multiplicity="1" />
+    <End Role="Warehouse_prod_salesOrd" Type="Self.Warehouse_prod_salesOrd" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Warehouse">
+        <PropertyRef Name="W_name" />
+      </Principal>
+      <Dependent Role="Warehouse_prod_salesOrd">
+        <PropertyRef Name="W_name" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="CompanyProjectEntities1" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Customers" EntityType="Self.Customer" />
+    <EntitySet Name="Products" EntityType="Self.Product" />
+    <EntitySet Name="ProductUnits" EntityType="Self.ProductUnit" />
+    <EntitySet Name="PurchasingOrders" EntityType="Self.PurchasingOrder" />
+    <EntitySet Name="SalesOrders" EntityType="Self.SalesOrder" />
+    <EntitySet Name="Suppliers" EntityType="Self.Supplier" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+    <EntitySet Name="Warehouses" EntityType="Self.Warehouse" />
+    <EntitySet Name="Warehouse_prod_PurchOrd" EntityType="Self.Warehouse_prod_PurchOrd" />
+    <EntitySet Name="Warehouse_prod_salesOrd" EntityType="Self.Warehouse_prod_salesOrd" />
+    <EntitySet Name="warehouse_products" EntityType="Self.warehouse_products" />
+    <AssociationSet Name="FK_SalesOrder_Customer" Association="Self.FK_SalesOrder_Customer">
+      <End Role="Customer" EntitySet="Customers" />
+      <End Role="SalesOrder" EntitySet="SalesOrders" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProductUnits_Products" Association="Self.FK_ProductUnits_Products">
+      <End Role="Products" EntitySet="Products" />
+      <End Role="ProductUnits" EntitySet="ProductUnits" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Warehouse_prod_PurchOrd_Products" Association="Self.FK_Warehouse_prod_PurchOrd_Products">
+      <End Role="Products" EntitySet="Products" />
+      <End Role="Warehouse_prod_PurchOrd" EntitySet="Warehouse_prod_PurchOrd" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Warehouse_prod_salesOrd_Products" Association="Self.FK_Warehouse_prod_salesOrd_Products">
+      <End Role="Products" EntitySet="Products" />
+      <End Role="Warehouse_prod_salesOrd" EntitySet="Warehouse_prod_salesOrd" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PurchasingOrder_Supplier" Association="Self.FK_PurchasingOrder_Supplier">
+      <End Role="Supplier" EntitySet="Suppliers" />
+      <End Role="PurchasingOrder" EntitySet="PurchasingOrders" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Warehouse_prod_PurchOrd_PurchasingOrder" Association="Self.FK_Warehouse_prod_PurchOrd_PurchasingOrder">
+      <End Role="PurchasingOrder" EntitySet="PurchasingOrders" />
+      <End Role="Warehouse_prod_PurchOrd" EntitySet="Warehouse_prod_PurchOrd" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Warehouse_prod_salesOrd_SalesOrder" Association="Self.FK_Warehouse_prod_salesOrd_SalesOrder">
+      <End Role="SalesOrder" EntitySet="SalesOrders" />
+      <End Role="Warehouse_prod_salesOrd" EntitySet="Warehouse_prod_salesOrd" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Warehouse_prod_PurchOrd_Warehouse" Association="Self.FK_Warehouse_prod_PurchOrd_Warehouse">
+      <End Role="Warehouse" EntitySet="Warehouses" />
+      <End Role="Warehouse_prod_PurchOrd" EntitySet="Warehouse_prod_PurchOrd" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Warehouse_prod_salesOrd_Warehouse" Association="Self.FK_Warehouse_prod_salesOrd_Warehouse">
+      <End Role="Warehouse" EntitySet="Warehouses" />
+      <End Role="Warehouse_prod_salesOrd" EntitySet="Warehouse_prod_salesOrd" />
+    </AssociationSet>
+    <FunctionImport Name="getExpiration" ReturnType="Collection(CompanyProjectModel.getExpiration_Result)" />
+    <FunctionImport Name="getPeriod" ReturnType="Collection(CompanyProjectModel.getPeriod_Result)" />
+    <FunctionImport Name="insert_cst">
+      <Parameter Name="name" Mode="In" Type="String" />
+      <Parameter Name="phone" Mode="In" Type="Int32" />
+      <Parameter Name="fax" Mode="In" Type="Int32" />
+      <Parameter Name="mob" Mode="In" Type="Int32" />
+      <Parameter Name="email" Mode="In" Type="String" />
+      <Parameter Name="web" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="insert_prod">
+      <Parameter Name="id" Mode="In" Type="Int32" />
+      <Parameter Name="name" Mode="In" Type="String" />
+      <Parameter Name="punit" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="insert_PurchasingOrder" ReturnType="Collection(String)">
+      <Parameter Name="pId" Mode="In" Type="Int32" />
+      <Parameter Name="ordDate" Mode="In" Type="DateTime" />
+      <Parameter Name="sup_name" Mode="In" Type="String" />
+      <Parameter Name="w_name" Mode="In" Type="String" />
+      <Parameter Name="prod_ID" Mode="In" Type="Int32" />
+      <Parameter Name="q" Mode="In" Type="Int32" />
+      <Parameter Name="pro_date" Mode="In" Type="DateTime" />
+      <Parameter Name="exp_dur" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="insert_SalesOrder">
+      <Parameter Name="sId" Mode="In" Type="Int32" />
+      <Parameter Name="ordDate" Mode="In" Type="DateTime" />
+      <Parameter Name="Cst_name" Mode="In" Type="String" />
+      <Parameter Name="w_name" Mode="In" Type="String" />
+      <Parameter Name="prod_ID" Mode="In" Type="Int32" />
+      <Parameter Name="q" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="insert_sup">
+      <Parameter Name="name" Mode="In" Type="String" />
+      <Parameter Name="phone" Mode="In" Type="Int32" />
+      <Parameter Name="fax" Mode="In" Type="Int32" />
+      <Parameter Name="mob" Mode="In" Type="Int32" />
+      <Parameter Name="email" Mode="In" Type="String" />
+      <Parameter Name="web" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="insert_W">
+      <Parameter Name="name" Mode="In" Type="String" />
+      <Parameter Name="address" Mode="In" Type="String" />
+      <Parameter Name="m_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="productReport" ReturnType="Collection(CompanyProjectModel.productReport_Result)">
+      <Parameter Name="w_name" Mode="In" Type="String" />
+      <Parameter Name="fromdate" Mode="In" Type="DateTime" />
+      <Parameter Name="todate" Mode="In" Type="DateTime" />
+    </FunctionImport>
+    <FunctionImport Name="productsMovements" ReturnType="Collection(CompanyProjectModel.productsMovements_Result)">
+      <Parameter Name="fromdate" Mode="In" Type="DateTime" />
+      <Parameter Name="todate" Mode="In" Type="DateTime" />
+    </FunctionImport>
+    <FunctionImport Name="sp_alterdiagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="version" Mode="In" Type="Int32" />
+      <Parameter Name="definition" Mode="In" Type="Binary" />
+    </FunctionImport>
+    <FunctionImport Name="sp_creatediagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="version" Mode="In" Type="Int32" />
+      <Parameter Name="definition" Mode="In" Type="Binary" />
+    </FunctionImport>
+    <FunctionImport Name="sp_dropdiagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(CompanyProjectModel.sp_helpdiagramdefinition_Result)">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(CompanyProjectModel.sp_helpdiagrams_Result)">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_renamediagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="new_diagramname" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_upgraddiagrams" />
+    <FunctionImport Name="transferProduct">
+      <Parameter Name="fromWarehouse" Mode="In" Type="String" />
+      <Parameter Name="toWarehouse" Mode="In" Type="String" />
+      <Parameter Name="prod_id" Mode="In" Type="Int32" />
+      <Parameter Name="q" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="update_cst">
+      <Parameter Name="name" Mode="In" Type="String" />
+      <Parameter Name="phone" Mode="In" Type="Int32" />
+      <Parameter Name="fax" Mode="In" Type="Int32" />
+      <Parameter Name="mob" Mode="In" Type="Int32" />
+      <Parameter Name="email" Mode="In" Type="String" />
+      <Parameter Name="web" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="update_product">
+      <Parameter Name="id" Mode="In" Type="Int32" />
+      <Parameter Name="name" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="update_PurchasingOrder">
+      <Parameter Name="pId" Mode="In" Type="Int32" />
+      <Parameter Name="ordDate" Mode="In" Type="DateTime" />
+      <Parameter Name="sup_name" Mode="In" Type="String" />
+      <Parameter Name="w_name" Mode="In" Type="String" />
+      <Parameter Name="prod_ID" Mode="In" Type="Int32" />
+      <Parameter Name="q" Mode="In" Type="Int32" />
+      <Parameter Name="pro_date" Mode="In" Type="DateTime" />
+      <Parameter Name="exp_dur" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="update_SalesOrder">
+      <Parameter Name="sId" Mode="In" Type="Int32" />
+      <Parameter Name="ordDate" Mode="In" Type="DateTime" />
+      <Parameter Name="Cst_name" Mode="In" Type="String" />
+      <Parameter Name="w_name" Mode="In" Type="String" />
+      <Parameter Name="prod_ID" Mode="In" Type="Int32" />
+      <Parameter Name="q" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="update_sup">
+      <Parameter Name="name" Mode="In" Type="String" />
+      <Parameter Name="phone" Mode="In" Type="Int32" />
+      <Parameter Name="fax" Mode="In" Type="Int32" />
+      <Parameter Name="mob" Mode="In" Type="Int32" />
+      <Parameter Name="email" Mode="In" Type="String" />
+      <Parameter Name="web" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="update_W">
+      <Parameter Name="name" Mode="In" Type="String" />
+      <Parameter Name="address" Mode="In" Type="String" />
+      <Parameter Name="m_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="WarehouseReport" ReturnType="Collection(CompanyProjectModel.WarehouseReport_Result)">
+      <Parameter Name="fromdate" Mode="In" Type="DateTime" />
+      <Parameter Name="todate" Mode="In" Type="DateTime" />
+    </FunctionImport>
+  </EntityContainer>
+  <ComplexType Name="getExpiration_Result">
+    <Property Type="Int32" Name="expire" Nullable="true" />
+    <Property Type="String" Name="pname" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="statuss" Nullable="true" MaxLength="50" />
+  </ComplexType>
+  <ComplexType Name="getPeriod_Result">
+    <Property Type="Int32" Name="NoOfMonth" Nullable="true" />
+    <Property Type="String" Name="Product_Name" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="quantity" Nullable="true" />
+    <Property Type="DateTime" Name="production_date" Nullable="true" />
+    <Property Type="Int32" Name="Expiration_Dur" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="productReport_Result">
+    <Property Type="String" Name="Prod_name" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="Prod_id" Nullable="false" />
+    <Property Type="String" Name="W_name" Nullable="false" MaxLength="50" />
+    <Property Type="Int32" Name="Expiration_Dur" Nullable="true" />
+    <Property Type="Int32" Name="quantity" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="productsMovements_Result">
+    <Property Type="Int32" Name="prod_id" Nullable="true" />
+    <Property Type="Int32" Name="quantity" Nullable="true" />
+    <Property Type="DateTime" Name="Transferdate" Nullable="true" />
+    <Property Type="String" Name="fromWarehouse" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="toWarehouse" Nullable="true" MaxLength="50" />
+  </ComplexType>
+  <ComplexType Name="sp_helpdiagramdefinition_Result">
+    <Property Type="Int32" Name="version" Nullable="true" />
+    <Property Type="Binary" Name="definition" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="sp_helpdiagrams_Result">
+    <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
+    <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
+    <Property Type="Int32" Name="ID" Nullable="false" />
+    <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
+    <Property Type="Int32" Name="OwnerID" Nullable="false" />
+  </ComplexType>
+  <ComplexType Name="WarehouseReport_Result">
+    <Property Type="String" Name="W_name" Nullable="false" MaxLength="50" />
+    <Property Type="Int32" Name="Prod_id" Nullable="false" />
+    <Property Type="Int32" Name="Quantity" Nullable="true" />
+  </ComplexType>
+</Schema>

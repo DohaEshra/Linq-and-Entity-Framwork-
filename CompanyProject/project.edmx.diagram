@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="10a32d83df8e4ae8ab00a5df1c6d4a78" Name="Diagram1">
+        <EntityTypeShape EntityType="CompanyProjectModel.Customer" Width="1.5" PointX="1.5" PointY="17.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="CompanyProjectModel.Product" Width="1.5" PointX="0.75" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="CompanyProjectModel.ProductUnit" Width="1.5" PointX="3" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="CompanyProjectModel.PurchasingOrder" Width="1.5" PointX="0.75" PointY="8.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="CompanyProjectModel.SalesOrder" Width="1.5" PointX="0.75" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="CompanyProjectModel.Supplier" Width="1.5" PointX="1.5" PointY="11.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="CompanyProjectModel.sysdiagram" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CompanyProjectModel.Warehouse" Width="1.5" PointX="0.75" PointY="14.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="CompanyProjectModel.Warehouse_prod_PurchOrd" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="CompanyProjectModel.Warehouse_prod_salesOrd" Width="1.5" PointX="3" PointY="7.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="CompanyProjectModel.warehouse_products" Width="1.5" PointX="5.75" PointY="3.75" IsExpanded="true" />
+        <AssociationConnector Association="CompanyProjectModel.FK_SalesOrder_Customer" ManuallyRouted="false" />
+        <AssociationConnector Association="CompanyProjectModel.FK_ProductUnits_Products" ManuallyRouted="false" />
+        <AssociationConnector Association="CompanyProjectModel.FK_Warehouse_prod_PurchOrd_Products" ManuallyRouted="false" />
+        <AssociationConnector Association="CompanyProjectModel.FK_Warehouse_prod_salesOrd_Products" ManuallyRouted="false" />
+        <AssociationConnector Association="CompanyProjectModel.FK_PurchasingOrder_Supplier" ManuallyRouted="false" />
+        <AssociationConnector Association="CompanyProjectModel.FK_Warehouse_prod_PurchOrd_PurchasingOrder" ManuallyRouted="false" />
+        <AssociationConnector Association="CompanyProjectModel.FK_Warehouse_prod_salesOrd_SalesOrder" ManuallyRouted="false" />
+        <AssociationConnector Association="CompanyProjectModel.FK_Warehouse_prod_PurchOrd_Warehouse" ManuallyRouted="false" />
+        <AssociationConnector Association="CompanyProjectModel.FK_Warehouse_prod_salesOrd_Warehouse" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
